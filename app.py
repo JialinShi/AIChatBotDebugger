@@ -1,19 +1,22 @@
 from openai import OpenAI
-
-client = OpenAI(api_key="")
-import os
 from flask import Flask, request, jsonify
+import os
+import yaml
 
 app = Flask(__name__)
 
+# load configurations for open_ai_token
+with open('config.yaml', 'r') as config_file:
+    config = yaml.safe_load(config_file)
+
+client = OpenAI(api_key = config['open_ai_token'])
+
+# basic landing page 
 @app.route('/', methods=['GET'])
 def index():
     return "AI Chatbot is running."
 
-
-
-# Set your OpenAI API key
-
+# chat resource that takes in the message from POST request
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json.get('message')
