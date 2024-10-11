@@ -1,23 +1,29 @@
 from openai import OpenAI
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
+from flask_session import Session
 from helpers.log_helper import *
+from werkzeug.utils import secure_filename
 import os
 import yaml
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'sample-secret-key'  
+app.config['SESSION_TYPE'] = 'filesystem'  
+Session(app)
 
-# load configurations for open_ai_token
+# Load configurations for open_ai_token
 with open('config.yaml', 'r') as config_file:
     config = yaml.safe_load(config_file)
 
-# config OpenAI client and set it into the app context 
+# Config OpenAI client and set it into the app context 
 client = OpenAI(api_key = config['open_ai_token'])
 app.config["client"] = client
 
-# basic landing page 
+
+# Basic landing page 
 @app.route('/', methods=['GET'])
 def index():
-    return "AI Chatbot is running."
+    return render_template('index.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -37,28 +43,53 @@ def chat():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    """
-    Analyze error log from the request 
-    Error log should be set in  "log_error" field, i.e.
-        {"log_error": {your error_log_here}}
-    """
-    log_error = request.json.get('log_error')
+    log_error = request.form.get('log_error')
+    if not log_error:
+        return redirect(url_for('index'))
     analysis_result = analyze_log_error(log_error)
-    return jsonify({'analysis': analysis_result})
+    return render_template('result.html', user_input=log_error, analysis_result=analysis_result)
 
+
+# Add allowed extensions
+ALLOWED_EXTENSIONS = {'txt', 'log'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    """
-    Accept log file uploading, perform error debugging through this endpoint
-    """
     if 'file' not in request.files:
-        return 'No file part', 400
+        return jsonify({'analysis': 'No file part in the request.'}), 400
     file = request.files['file']
     if file.filename == '':
-        return 'No selected file', 400
-    content = file.read().decode('utf-8')
-    return jsonify({'analysis': analysis_result})
+        return jsonify({'analysis': 'No selected file.'}), 400
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        content = file.read().decode('utf-8')
+        # Optionally, upload the log to S3
+        # upload_log_to_s3(content, filename)
+
+        # Update conversation history
+        if 'history' not in session:
+            session['history'] = []
+        session['history'].append({'role': 'user', 'content': f"Uploaded log file: {filename}"})
+
+        # Analyze the log content
+        assistant_response = analyze_log_error(content)
+
+        session['history'].append({'role': 'assistant', 'content': assistant_response})
+        return jsonify({'analysis': assistant_response})
+    else:
+        return jsonify({'analysis': 'Invalid file type. Only .txt and .log files are allowed.'}), 400
+
+@app.route('/clear', methods=['POST'])
+def clear_chat():
+    session.pop('history', None)
+    return ('', 204)
+
+@app.route('/test', methods=['GET'])
+def test():
+    return "Test success"
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,151 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+textarea, input[type="file"] {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4285F4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+#chat-window {
+    border: 1px solid #ccc;
+    padding: 15px;
+    height: 400px;
+    overflow-y: scroll;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+}
+
+.user .message-content {
+    text-align: right;
+}
+
+.assistant .message-content {
+    text-align: left;
+}
+
+.message-content {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user .message-content {
+    background-color: #dcf8c6;
+}
+
+.assistant .message-content {
+    background-color: #fff;
+}
+
+#chat-form {
+    display: flex;
+    margin-top: 10px;
+}
+
+#user-input {
+    flex: 1;
+    resize: none;
+    padding: 10px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    margin-left: 10px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.user {
+    justify-content: flex-end;
+}
+
+.assistant {
+    justify-content: flex-start;
+}
+
+.message-content {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.user .message-content {
+    background-color: #dcf8c6;
+    border-top-right-radius: 0;
+    text-align: left;
+}
+
+.assistant .message-content {
+    background-color: #fff;
+    border-top-left-radius: 0;
+    text-align: left;
+}
+
+.message-content {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Style code blocks */
+.message-content pre {
+    background-color: #f1f1f1;
+    padding: 10px;
+    overflow-x: auto;
+    border-radius: 5px;
+}
+
+/* Style inline code */
+.message-content code {
+    background-color: #eaeaea;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* Style links */
+.message-content a {
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.message-content a:hover {
+    text-decoration: underline;
+}
+
+/* Style lists */
+.message-content ul {
+    padding-left: 20px;
+}
+
+

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Analysis Result</h1>
+    <p><strong>Your Input:</strong></p>
+    <pre>{{ user_input }}</pre>
+    <p><strong>AI Chatbot Guidance:</strong></p>
+    <pre>{{ analysis_result }}</pre>
+    <br>
+    <a href="{{ url_for('index') }}">Go Back</a>
+</body>
+</html>
