@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         userInput.value = '';
 
         // Send message to the backend
-        fetch('/chat', {
+        fetch('/bot/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ function appendMessage(sender, message) {
             const formData = new FormData();
             formData.append('file', file);
 
-            fetch('/upload', {
+            fetch('/bot/upload', {
                 method: 'POST',
                 body: formData
             })
@@ -84,7 +84,7 @@ function appendMessage(sender, message) {
 
 const clearChatButton = document.getElementById('clear-chat');
 clearChatButton.addEventListener('click', function () {
-    fetch('/clear', { method: 'POST' })
+    fetch('/bot/clear', { method: 'POST' })
         .then(() => {
             chatWindow.innerHTML = '';
         })
@@ -92,6 +92,16 @@ clearChatButton.addEventListener('click', function () {
             console.error('Error:', error);
         });
 });
+
+// function validateFileSize(input) {
+//     const file = input.files[0];
+//     const maxSize = 512 * 1024; 
+
+//     if (file && file.size > maxSize) {
+//         alert("During demo session, maximum file size is limited to 512 KB.");
+//         input.value = ""; 
+//     }
+// }
 
 
 

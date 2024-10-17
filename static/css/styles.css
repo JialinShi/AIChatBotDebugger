@@ -68,6 +68,7 @@ pre {
 #chat-form {
     display: flex;
     margin-top: 10px;
+    gap: 5px;
 }
 
 #user-input {
@@ -77,8 +78,8 @@ pre {
 }
 
 button[type="submit"] {
+    vertical-align: top; 
     padding: 10px 20px;
-    margin-left: 10px;
 }
 
 .message {
@@ -148,4 +149,8 @@ button[type="submit"] {
     padding-left: 20px;
 }
 
+#upload-button {
+    vertical-align: top; 
+    padding: 10px 5px;
+}
 

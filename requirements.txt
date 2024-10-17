@@ -1,0 +1,5 @@
+flask
+openai
+langchain
+boto3
+flask_session

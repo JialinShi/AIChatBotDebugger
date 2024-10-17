@@ -21,11 +21,11 @@ app.config["client"] = client
 
 
 # Basic landing page 
-@app.route('/', methods=['GET'])
+@app.route('/bot', methods=['GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/chat', methods=['POST'])
+@app.route('/bot/chat', methods=['POST'])
 def chat():
     """
     Receive message from /chat path, working as chat bot fucntionality 
@@ -41,7 +41,7 @@ def chat():
     return jsonify({'response': assistant_response})
 
 
-@app.route('/analyze', methods=['POST'])
+@app.route('/bot/analyze', methods=['POST'])
 def analyze():
     log_error = request.form.get('log_error')
     if not log_error:
@@ -56,7 +56,7 @@ ALLOWED_EXTENSIONS = {'txt', 'log'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/upload', methods=['POST'])
+@app.route('/bot/upload', methods=['POST'])
 def upload():
     if 'file' not in request.files:
         return jsonify({'analysis': 'No file part in the request.'}), 400
@@ -82,12 +82,12 @@ def upload():
     else:
         return jsonify({'analysis': 'Invalid file type. Only .txt and .log files are allowed.'}), 400
 
-@app.route('/clear', methods=['POST'])
+@app.route('/bot/clear', methods=['POST'])
 def clear_chat():
     session.pop('history', None)
     return ('', 204)
 
-@app.route('/test', methods=['GET'])
+@app.route('/bot/test', methods=['GET'])
 def test():
     return "Test success"
 
