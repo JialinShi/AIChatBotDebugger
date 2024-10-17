@@ -7,7 +7,7 @@ import os
 import yaml
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'sample-secret-key'  
+app.config['SECRET_KEY'] = 'sample-secret-key'
 app.config['SESSION_TYPE'] = 'filesystem'  
 Session(app)
 
