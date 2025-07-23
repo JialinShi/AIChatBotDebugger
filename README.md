@@ -1,8 +1,6 @@
 # Project
 Author: `Jialin Shi`
 
-Live website: http://ec2-18-222-52-169.us-east-2.compute.amazonaws.com/bot/
-
 ## Description
 - This AIChatBotDebugger application integrates with gpt-4o-mini from OpenAI, specifically customized for debugging. 
 - You can either copy and paste your error log to this chat bot or simply upload your error log file for diagnosing. 
